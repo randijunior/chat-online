@@ -1,0 +1,72 @@
+GET http://localhost:3000/
+
+###
+
+POST http://localhost:3000/create_account
+Content-Type: application/json
+
+{
+    "user_name" : "randi",
+    "user_password" : "1234"
+}
+
+###
+
+POST http://localhost:3000/create_account
+Content-Type: application/json
+
+{
+    "user_name" : "jefferson",
+    "user_password" : "1234"
+}
+
+###
+
+POST http://localhost:3000/auth
+Content-Type: application/json
+
+{
+    "user_name" : "randi",
+    "user_password": "1234"
+}
+
+###
+
+GET http://localhost:3000/friends
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWFhYmZmMjUwZjliMGVhMDExZmJkZiIsImlhdCI6MTYyMDc0OTU1OH0.iZKiwirvPgJGt_Yfh_34EO8wiLJDI71A3q478f-HwE4
+
+###
+
+POST http://localhost:3000/friends
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWFhYmZmMjUwZjliMGVhMDExZmJkZiIsImlhdCI6MTYyMDc0OTU1OH0.iZKiwirvPgJGt_Yfh_34EO8wiLJDI71A3q478f-HwE4
+
+{
+    "friend_name" : "jefferson"
+}
+
+###
+
+POST http://localhost:3000/messages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWFhYmZmMjUwZjliMGVhMDExZmJkZiIsImlhdCI6MTYyMDc0OTU1OH0.iZKiwirvPgJGt_Yfh_34EO8wiLJDI71A3q478f-HwE4
+
+{
+    "message" : "eai, blz?",
+    "friend_name" : "jefferson",
+    "user_id" : "609aabff250f9b0ea011fbdf",
+    "friend_id": "609aac03250f9b0ea011fbe0",
+    "readed": false
+}
+
+###
+
+GET http://localhost:3000/friends/608ecbef8c91d82eac0f7ac9
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWFhYmZmMjUwZjliMGVhMDExZmJkZiIsImlhdCI6MTYyMDc2Mjg4Nn0.UyMysKNZOODmI-wIWxjredmCkxYR-pGXwdIZz4k96jo
+
+###
+GET http://localhost:3000/unr_messages/609aabff250f9b0ea011fbdf
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWFhYzAzMjUwZjliMGVhMDExZmJlMCIsImlhdCI6MTYyMDg0Mzg0Nn0.RCJspWvLQpFttsl1V9BMc0X8AoCWpNJMOaiPaoiyXks

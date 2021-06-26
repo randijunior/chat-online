@@ -1,0 +1,531 @@
+{
+  "swagger": "2.0.0",
+  "info": {
+      "title": "Chat Online API",
+      "description": "API para gerenciar os usuarios amigos e as mensagems em tempo real",
+      "version": "1.0.0"
+  },
+  "host": "api.exemplo.com",
+  "basePath": "/",
+  "paths": {
+    "/create_account": {
+      "post": {
+        "tags":["Auth"],
+        "summary": "Cria uma nova conta",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "schema":  {
+              "$ref": "#/definitions/UserRequest"
+            },
+            "description": "Dados do novo usuário",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "descripiton": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserCreated"
+            }
+          },
+          "500": {
+            "description": "Erro no servidor"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags":["User"],
+        "summary": "Procura usuário pelo id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type":"string",
+            "description": "Id do usuário",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type":"string"
+            },
+            "required":true,
+            "description":"token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "descripiton": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "401": {
+            "description": "Unauthorized(Não autorizado)"
+          },
+          "500": {
+            "description": "Erro no servidor"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags":["User"],
+        "summary":"Procura usuário pelo nome",
+        "parameters": [
+          {
+            "in":"query",
+            "name": "name",
+            "description": "Nome do usuário",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type":"string"
+            },
+            "required":true,
+            "description":"token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "401": {
+            "description": "Unauthorized(Não autorizado)"
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags":["Auth"],
+        "summary": "Autentica conta e retorna token gerado",
+        "parameters":[
+          {
+            "in": "body",
+            "name": "user",
+            "schema":  {
+              "$ref": "#/definitions/UserRequest"
+            },
+            "description": "Credenciais de login",
+            "required": true
+          }
+        ],
+        "responses":{
+          "200": {
+            "descripiton": "OK",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          },
+          "500": {
+            "description": "Erro no servidor"
+          }
+        }
+      }
+    },
+    "/friends": {
+      "get": {
+        "tags":["Friend"],
+        "summary": "Retorna Lista de Amigos",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type":"string"
+            },
+            "required":true,
+            "description":"token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "descripiton":"OK",
+            "schema": {
+              "type":"array",
+              "items": {
+                "$ref":"#/definitions/Friend"
+              }
+            }
+          }
+        }
+      },
+      "/friends/{id}": {
+        "get": {
+          "tags":["Friend"],
+          "summary": "Procura amigo pelo id",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "type":"string",
+              "description": "Id do amigo",
+              "required": true
+            },
+            {
+              "in": "header",
+              "name": "Authorization",
+              "schema": {
+                "type":"string"
+              },
+              "required":true,
+              "description":"token"
+            }
+          ],
+          "responses": {
+            "200": {
+              "descripiton": "OK",
+              "schema": {
+                "$ref": "#/definitions/Friend"
+              }
+            },
+            "401": {
+              "description": "Unauthorized(Não autorizado)"
+            },
+            "500": {
+              "description": "Erro no servidor"
+            }
+          }
+        }
+      },
+      "post":{
+        "tags":["Friend"],
+        "summary": "Cria um novo amigo",
+        "parameters":[
+          {
+            "in": "query",
+            "name": "friend_name",
+            "schema": {
+              "$ref": "#/definitions/FriendRequest"
+            },
+            "required": true,
+            "description": "Nome de usuário do amigo"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type":"string"
+            },
+            "required":true,
+            "description":"token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "descripiton": "OK",
+            "schema": {
+              "$ref": "#/definitions/Friend"
+            }
+          },
+          "401": {
+            "description": "Unauthorized(Não autorizado)"
+          },
+          "500": {
+            "description": "Erro no servidor"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "post": {
+        "tags":["User"],
+        "summary": "Upload da imagem de perfil",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters":[
+          {
+            "in": "formData",
+            "name":"image",
+            "type":"file",
+            "description": "A imagem para upload"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type":"string"
+            },
+            "required":true,
+            "description":"token"
+          }
+        ],
+        "responses":{
+          "200": {
+            "description":"Dados sobre a imagem",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type":"string",
+                  "description": "Url da imagem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized(Não autorizado)"
+          },
+          "500": {
+            "description": "Erro no servidor"
+          }
+        }
+      }
+    },
+    "/messages": {
+      "get": {
+        "tags": ["Message"],
+        "summary":"Retorna lista de mensagens",
+        "parameters":[
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type":"string"
+            },
+            "required":true,
+            "description":"token"
+          }
+        ],
+        "responses":{
+          "200": {
+            "description":"OK",
+            "schema":{
+              "type":"array",
+              "items": {
+                "$ref":"#/definitions/Message"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized(Não autorizado)"
+          },
+          "500": {
+            "description": "Erro no servidor"
+          }
+        }
+      },
+      "post": {
+        "tags":["Message"],
+        "summary": "Cria uma nova mensagem",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Objeto mensagem",
+            "schema": {
+              "type":"object",
+              "properties": {
+                "message":{
+                  "type":"string"
+                },
+                "user_id": {
+                  "type":"string"
+                },
+                "friend_id":{
+                  "type":"string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema":{
+              "$ref": "#/definitions/Message"
+            }
+          }
+        }
+      }
+    },
+    "/unr_messages/{id}": {
+      "get":{
+        "tags":["Message"],
+        "summary":"Retorna mensagens não lidas",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "id",
+            "type":"string",
+            "description": "Id do amigo",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type":"string"
+            },
+            "required":true,
+            "description":"token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description":"OK",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "un_m":{
+                  "type":"number"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized(Não autorizado)"
+          },
+          "500": {
+            "description": "Erro no servidor"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "user_name": {
+          "type": "string"
+        },
+        "user_password": {
+          "type": "string"
+        },
+        "user_image": {
+          "type": "string"
+        },
+        "online": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "user_name",
+        "user_password"
+      ]
+    },
+    "UserRequest": {
+      "properties": {
+        "user_name": {
+          "type":"string"
+        },
+        "user_password": {
+          "type": "string"
+        }
+      },
+      "required":[
+        "user_name",
+        "user_password"
+      ]
+    },
+    "Token": {
+      "properties": {
+        "auth": {
+          "type":"boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "user": {
+          "$ref":"#/definitions/User"
+        }
+      }
+    },
+    "UserCreated": {
+      "properties": {
+        "user_name": {
+          "type": "string"
+        },
+        "created": {
+          "type":"boolean"
+        }
+      }
+    },
+    "Friend": {
+      "properties": {
+        "friend_id": {
+          "type": "string"
+        },
+        "friend_name":{
+          "type":"string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "online": {
+          "type":"boolean"
+        },
+        "friend_image": {
+          "type":"string"
+        }
+      }
+    },
+    "FriendRequest": {
+      "properties": {
+        "friend_name": {
+          "type":"string"
+        }
+      }
+    },
+    "Message": {
+      "properties": {
+        "message": {
+          "type":"string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "friend_id": {
+          "type":"string"
+        },
+        "readed": {
+          "type": "boolean"
+        },
+        "date": {
+          "type":"string",
+          "format":"date-time"
+        }
+      },
+      "required":[
+        "message",
+        "user_id",
+        "friend_id"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "User",
+      "description": "Gerencia o usuário"
+    },
+    {
+      "name": "Friend",
+      "description": "Gerencia amigos do usuário"
+    },
+    {
+      "name": "Auth",
+      "description": "Gerencia criação de conta e login"
+    },
+    {
+      "name": "Message",
+      "description": "Gerencia as mensagens do usuário"
+    }
+  ]
+}
