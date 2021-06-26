@@ -5,7 +5,7 @@
       "description": "API para gerenciar os usuarios amigos e as mensagems em tempo real",
       "version": "1.0.0"
   },
-  "host": "api.exemplo.com",
+  "host": "chat-online-api.herokuapp.com",
   "basePath": "/",
   "paths": {
     "/create_account": {
