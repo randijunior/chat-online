@@ -120,10 +120,6 @@ io.on('connection', (socket) => {
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage }).single('image');
-
-app.get('/',(req, res)=> {
-    return res.send('Ola')
-})
   app.use('/profile',require('./src/middleware/authenticateToken.js'));
   app.post('/profile', upload, (req, res) => {
     if(req.file) {

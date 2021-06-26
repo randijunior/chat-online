@@ -1,5 +1,5 @@
 module.exports =  function(app) {
     app.get('/', (req, res)=> {
-        res.send('ola');
+        res.json({'doc': "https://chat-online-api.herokuapp.com/api-docs"});
     })
 }
