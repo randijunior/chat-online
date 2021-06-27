@@ -12,7 +12,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
     allowEIO3: true,
   cors: {
-    origin: "http://localhost:8080",
+    origin: "https://chatonline-f2f1d.web.app",
     methods: ["GET", "POST"],
     credentials: true
   }
