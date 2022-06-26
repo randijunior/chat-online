@@ -3,7 +3,8 @@
     "version": "0.0.1",
     "description": "meu primeiro socket.io app",
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js",
+        "build": "tsc"
     },
     "dependencies": {
         "bcrypt": "^5.0.1",
@@ -14,10 +15,15 @@
         "datauri": "^3.0.0",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
+        "inversify": "^6.0.1",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.12.2",
         "multer": "^1.4.2",
+        "reflect-metadata": "^0.1.13",
         "socket.io": "^4.0.0",
         "swagger-ui-express": "^4.1.6"
+    },
+    "devDependencies": {
+        "typescript": "^4.7.4"
     }
 }
