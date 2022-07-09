@@ -1,17 +1,26 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "lib": ["es6", "es2018"],
     "module": "commonjs",
-    "lib": ["es6", "dom"],
-    "types": ["reflect-metadata"],
+    "target": "es2018",
+
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
+    "types": ["reflect-metadata"],
+
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+
     "declaration": false,
     "sourceMap": false,
-    "outDir": "dist",
+    "outDir": "./dist",
     "rootDir": "./src",
-    "strict": true,
-    "esModuleInterop": true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
