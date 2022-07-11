@@ -1,7 +1,8 @@
-import bootServer from "./server/http";
-import bootConnection from "./boot/db";
+import factory from "./boot/container";
+import HttpServer from "./server/http";
 
 (async () => {
-    await bootConnection();
-    bootServer();
+    let container = await factory();
+    let server = new HttpServer(container);
+    server.listen(3000);
 })();

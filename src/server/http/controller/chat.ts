@@ -1,11 +1,18 @@
-import {controller, httpGet, interfaces, request, response} from "inversify-express-utils";
+import {BaseHttpController, controller, httpGet, interfaces, request, response} from "inversify-express-utils";
 import * as express from "express";
+import {inject} from "inversify";
+import User from "../../../domain/model/user";
+import mongoose from "mongoose";
 
 @controller("/chat")
-export class ChatController implements interfaces.Controller {
-    constructor(){}
+export class ChatController extends BaseHttpController {
+    constructor(
+        @inject(User) private user: mongoose.Model<User & mongoose.Document>
+    ){
+        super();
+    }
     @httpGet("/")
-    private hello(
+    public async hello(
         @request() req: express.Request,
         @response() res: express.Response
     ) {

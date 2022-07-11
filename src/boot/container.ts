@@ -1,8 +1,20 @@
-import {Container} from "inversify";
-import ChatService from "../domain/service/chat";
+import 'reflect-metadata';
+
+import { Container } from 'inversify';
+import mongoose from 'mongoose';
+
+import dbFactory from './db';
+import User, {getModel} from "../domain/model/user";
 
 
-let container = new Container();
+export default async function factory() {
 
-container.bind<ChatService>(ChatService).to(ChatService).inSingletonScope();
-export default container;
+    const db = await dbFactory();
+
+    const container = new Container();
+
+    container.bind(mongoose.Connection).toConstantValue(db).whenTargetIsDefault();
+    container.bind(<any>User).toDynamicValue(getModel).inSingletonScope().whenTargetIsDefault();
+
+    return container;
+};

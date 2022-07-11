@@ -1,19 +1,26 @@
 import "reflect-metadata";
 import {InversifyExpressServer} from "inversify-express-utils";
 import * as bodyParser from 'body-parser';
-import container from "../../boot/container";
+import express from "express";
 
 import "./controller/chat";
+import { Container } from "inversify";
 
-export default function load() {
-    let server = new InversifyExpressServer(container);
-    server.setConfig((app) => {
-        app.use(bodyParser.urlencoded({extended: true}));
-        app.use(bodyParser.json());
-    });
+export default class Server {
+    server: InversifyExpressServer;
+    app: express.Application;
 
-    let app = server.build();
-    app.listen(3000, () => {
-        console.log("Listening on port 3000");
-    });
+    constructor(container: Container) {
+        this.server = new InversifyExpressServer(container);
+        this.server.setConfig((app) => {
+            app.use(bodyParser.urlencoded({extended: true}));
+            app.use(bodyParser.json());
+        });
+        this.app = this.server.build();
+    }
+
+    listen(port: number) {
+        this.app.listen(port, () => console.log("Listen on: " + port));
+    }
+
 }
