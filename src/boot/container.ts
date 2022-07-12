@@ -9,7 +9,7 @@ import User, {getModel} from "../domain/model/user";
 
 export default async function factory() {
 
-    const db = await dbFactory();
+    const db = await dbFactory("localhost", "2717", "test", "", "");
 
     const container = new Container();
 
